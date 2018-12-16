@@ -1,0 +1,8 @@
+version: "3.2"
+services:
+  cra-runtime-environment-variables:
+    image: kunokdev/cra-runtime-environment-variables
+    ports:
+      - "5000:80"
+    environment:
+      - "API_URL=production.example.com"
