@@ -16,7 +16,7 @@ environment would be required.
 
 ![](https://cdn-images-1.medium.com/max/1600/0*X2czIkbrJQuKpgM5.jpeg)
 
-### What do we want to achieve?
+### 🤔 What do we want to achieve?
 
 We want to be able to run our React application as Docker container that is
 built once and runs everywhere. We want to reconfigure our container **during
@@ -36,15 +36,14 @@ services:
       - "API_URL=production.example.com"
 ```
 
-_We should be able configure our React application using _`-e`_ flag
-(environment variables) when using _`Docker run`_ command. _
+We should be able configure our React application using ` -e`` flag (environment variables) when using `Docker run` command.
 
 > Basic users might not need this approach and can be satisfied with buildtime
 > configuration which is easier to reason about on the short run, but if you are
 > targeting dynamic environments that might change or you are using some kind of
 > orchestration system, this approach is something that you might consider.
 
-### The problem
+### 🧐 The problem
 
 First of all, it must be clear that there is no such thing as environment
 variables inside browser environment. Whichever solution we use nowadays, is
@@ -54,15 +53,15 @@ documentation](https://facebook.github.io/create-react-app/docs/adding-custom-en
 Even inside source code these are used as `process.env` just like we use
 environment variables inside Node.js.
 
-In reality, object `process` does not exist inside browser environment, it’s
-Node specific. CRA by default doesn’t do server-side rendering, so it can’t
+In reality, object `process` does not exist inside browser environment, it's
+Node specific. CRA by default doesn't do server-side rendering, so it can't
 inject environment variables during content serving (like
-[Next.js](https://github.com/zeit/next.js) does), it doesn’t include server as
+[Next.js](https://github.com/zeit/next.js) does), it doesn't include server as
 such, so in this case, ** during transpiling**, Webpack process replaces all
 occurrences of `process.env` with string value that was given. This means **it
 can only be configured during build time**.
 
-### Solution
+### 👌 Solution
 
 There is specific moment when it is still possible to inject environment
 variables, it happens when we start our container. Then we can read environment
@@ -73,10 +72,9 @@ bash script which creates JavaScript file with environment variables assigned as
 properties of the global `window`object. Injected to be globally available
 within our application the browser way.
 
-### Step by step guide
+### 🐢 Step by step guide
 
-You will find link to GitHub repository at the end of the article. Let’s start
-with simple `create-react-app` project and create `.env` file with our first
+Let's start with simple `create-react-app` project and create `.env` file with our first
 environment variable that we want to expose.
 
 ```
@@ -89,7 +87,7 @@ touch .env
 echo "API_URL=https//default.dev.api.com" >> .env
 ```
 
-Then let’s write a small bash script which will read`.env` file and extract
+Then let's write a small bash script which will read`.env` file and extract
 environment variables that will be written into file. If you set environment
 variable inside the container, its value will be used, otherwise it will
 fallback to default value from .env file. It will create JavaScript file which
@@ -140,7 +138,17 @@ imports file created by our bash script.
 
 > index.html
 
-During development, if we don’t want to use Docker, we can run bash script via
+Let's display our environment variable within application:
+
+```
+<p>API_URL: {window._env_.API_URL}</p>
+```
+
+> src/App
+
+#### 🛠 Development
+
+During development, if we don't want to use Docker, we can run bash script via
 npm script runner by modifying package.json:
 
 ```
@@ -153,14 +161,6 @@ npm script runner by modifying package.json:
 ```
 
 > package.json
-
-Let’s display our environment variable within application:
-
-```
-<p>API_URL: {window._env_.API_URL}</p>
-```
-
-> src/App
 
 And if we run `yarn dev` we should see output like this:
 
@@ -185,12 +185,12 @@ of source code:
 env-config.js
 ```
 
-As for development environment, that’s it! We are half-way there. However, We
-didn’t make a huge difference at this point compared to what CRA offered by
+As for development environment, that's it! We are half-way there. However, We
+didn't make a huge difference at this point compared to what CRA offered by
 default for development environment, however, the true potential of this
 approach shines in production.
 
-#### Production
+#### 🌎 Production
 
 Now we are going to create minimal Nginx configuration so that we can build
 optimized image which serves production-ready application.
@@ -221,7 +221,7 @@ server {
 
 > conf/conf.d/default.conf
 
-It’s also useful to enable gzip compression so that our assets are more
+It's also useful to enable gzip compression so that our assets are more
 lightweight during network transition:
 
 ```
@@ -315,7 +315,7 @@ Above `docker run` command should output application like so:
 
 ![](https://cdn-images-1.medium.com/max/1600/1*kK7Ss5ODlukXgsLNuYh0Lg.png)
 
-Lastly, let’s create our docker-compose file. You will usually have different
+Lastly, let's create our docker-compose file. You will usually have different
 docker-compose files depending on environment and you will use `-f` flag to
 select which file to use.
 
@@ -338,26 +338,19 @@ Great! We have now achieved our goal, we can reconfigure our application easily
 in both development and production environments in a very convenient way. We can
 now finally build only once and run everywhere!
 
-[If you got stuck or have additional ideas, access source code on
-Github](https://github.com/kunokdev/cra-runtime-environment-variables).
-
-#### Next steps
+#### 💅 Next steps
 
 Current implementation of shell script will print all variables included within
-.env file, but most of the time we don’t really want to expose all of them. You
-could implement filters for variables you don’t want to expose using prefixes or
+.env file, but most of the time we don't really want to expose all of them. You
+could implement filters for variables you don't want to expose using prefixes or
 similar technique.
 
-#### Alternative solutions
+#### 🐓 Alternative solutions
 
 As noted above, buildtime configuration will satisfy most use cases and you can
 rely on default approach using .env file per environment and build container for
 each environment, inject values via CRA Webpack provided environment variables.
 
-You could also have look [CRA Github repository
+You could also have a look at [CRA Github repository
 issue](https://github.com/facebook/create-react-app/issues/2353) which covers
-this problem. By now, there are more posts and issues which cover this topic and
-each offers similar solution as above, it’s up to you how you are going to
-implement specific details, you as well might use Node.js to serve your
-application which means that you can also replace shells script with Node.js
-script, but note that Nginx is more convenient to serve static content.
+this problem. By now, there should be more posts and issues which cover this topic and each offers similar solution as above, it's up to you to decide how are you going to implement specific details, you as well might use Node.js to serve your application which means that you can also replace shells script with Node.js script, but note that Nginx is more convenient to serve static content.
