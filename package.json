@@ -1,7 +1,7 @@
 {
   "name": "cra-runtime-environment-variables",
   "version": "0.1.0",
-  "private": true,
+  "license": "MIT",
   "dependencies": {
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
