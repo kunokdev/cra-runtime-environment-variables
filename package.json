@@ -8,7 +8,7 @@
     "react-scripts": "2.1.1"
   },
   "scripts": {
-    "dev": "chmod +x ./env.sh && ./env.sh && cp env-config.js ./public/ && react-scripts start",
+    "dev": "chmod +x ./env.sh && ./env.sh && mv env-config.js ./public/env-config.js && react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "build": "sh -ac '. ./.env; react-scripts build'"
