@@ -317,6 +317,10 @@ Current implementation of shell script will print all variables included within
 could implement filters for variables you don't want to expose using prefixes or
 similar technique.
 
+#### 🧩 TypeScript
+
+You may run into [Type errors as mentioned in this issue](https://github.com/kunokdev/cra-runtime-environment-variables/issues/12). To solve this, extend `window` object or rewrite global window type as suggested in issue comments.
+
 #### 🐓 Alternative solutions
 
 As noted above, buildtime configuration will satisfy most use cases and you can
