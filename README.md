@@ -270,7 +270,7 @@ COPY .env .
 RUN chmod +x env.sh
 
 # Start Nginx server
-CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
+CMD ["/bin/sh", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
 ```
 
 Now our container is ready. We can do all standard stuff with it. We can build
