@@ -4,7 +4,7 @@ This repository shows how to implement **runtime** environment variables. Unlike
 
 This repository is explained deeply within Medium blog post:
 
-https://medium.freecodecamp.org/how-to-implement-runtime-environment-variables-with-create-react-app-docker-and-nginx-7f9d42a91d70
+https://medium.com/free-code-camp/how-to-implement-runtime-environment-variables-with-create-react-app-docker-and-nginx-7f9d42a91d70
 
 ---
 
