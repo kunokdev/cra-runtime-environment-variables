@@ -36,7 +36,7 @@ services:
       - "API_URL=production.example.com"
 ```
 
-We should be able configure our React application using ` -e`` flag (environment variables) when using `Docker run` command.
+We should be able configure our React application using `-e` flag (environment variables) when using `Docker run` command.
 
 > Basic users might not need this approach and can be satisfied with buildtime
 > configuration which is easier to reason about on the short run, but if you are
